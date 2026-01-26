@@ -4,7 +4,7 @@ An Android app to show your love for the IKEA shark (Blåhaj)! Press the heart b
 
 ## Features
 
-- Beautiful IKEA-themed design (blue & yellow)
+- IKEA-themed design (blue & yellow)
 - Shows your IKEA shark picture
 - Heart "I LIKE" button with animation
 - Real-time global like counter (shared across all users!)

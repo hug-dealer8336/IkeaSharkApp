@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Shark body shape -->
+    <path
+        android:fillColor="#7FB3D5"
+        android:pathData="M54,30 Q75,30 80,54 Q75,78 54,78 Q33,78 28,54 Q33,30 54,30 Z"/>
+    <!-- Heart -->
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M54,58 C54,58 45,52 45,47 C45,43 48,41 51,41 C53,41 54,42 54,42 C54,42 55,41 57,41 C60,41 63,43 63,47 C63,52 54,58 54,58 Z"/>
+</vector>

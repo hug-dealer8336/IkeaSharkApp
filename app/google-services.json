@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975983944976",
+    "project_id": "i-like-ikea-shark",
+    "storage_bucket": "i-like-ikea-shark.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975983944976:android:60cf44f8d0ef2de953b195",
+        "android_client_info": {
+          "package_name": "com.ikeafan.sharkapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsfaPl8Gvh_zCx6sCBO7mOH7nXaB5rfJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

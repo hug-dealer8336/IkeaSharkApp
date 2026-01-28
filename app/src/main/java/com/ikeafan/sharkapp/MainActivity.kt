@@ -1,6 +1,8 @@
 package com.ikeafan.sharkapp
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
@@ -42,7 +44,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        try {
+            setContentView(R.layout.activity_main)
 
         likeButton = findViewById(R.id.likeButton)
         likeCountText = findViewById(R.id.likeCountText)
@@ -102,6 +105,14 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please select an item first.", Toast.LENGTH_SHORT).show()
             }
+        }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Startup error", e)
+            AlertDialog.Builder(this)
+                .setTitle("App error")
+                .setMessage(Log.getStackTraceString(e))
+                .setPositiveButton("OK", null)
+                .show()
         }
     }
 

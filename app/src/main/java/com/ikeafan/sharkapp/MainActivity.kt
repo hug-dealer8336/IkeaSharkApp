@@ -55,6 +55,13 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         imageSpinner.adapter = adapter
 
+        // Determine start index early and initialize currentLikesRef to avoid uninitialized access
+        val startIndex = intent.getIntExtra("image_index", 0)
+        currentLikesRef = database.getReference(imageItems.getOrNull(startIndex)?.firebasePath
+            ?: imageItems[0].firebasePath)
+        // Attach listener for the initial selection
+        attachLikeCounterListener()
+
         imageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedItem = imageItems[position]
@@ -72,7 +79,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Set initial selection from intent (menu) or default to first item
-        val startIndex = intent.getIntExtra("image_index", 0)
         imageSpinner.setSelection(startIndex)
 
         // Handle like button click
@@ -85,12 +91,16 @@ class MainActivity : AppCompatActivity() {
             val imageAnimation = AnimationUtils.loadAnimation(this, R.anim.shark_bounce)
             imageView.startAnimation(imageAnimation)
 
-            // Increment the counter
-            currentLikesRef.get().addOnSuccessListener { snapshot ->
-                val currentCount = snapshot.getValue(Long::class.java) ?: 0
-                currentLikesRef.setValue(currentCount + 1)
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed to like. Check your internet!", Toast.LENGTH_SHORT).show()
+            // Increment the counter (only if initialized)
+            if (::currentLikesRef.isInitialized) {
+                currentLikesRef.get().addOnSuccessListener { snapshot ->
+                    val currentCount = snapshot.getValue(Long::class.java) ?: 0
+                    currentLikesRef.setValue(currentCount + 1)
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failed to like. Check your internet!", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please select an item first.", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,10 @@ class MainMenuActivity : AppCompatActivity() {
                     text = name
                     textSize = 18f
                     setPadding(32, 24, 32, 24)
-                    setBackgroundResource(android.R.attr.selectableItemBackground)
+                    // Resolve selectableItemBackground attribute to a drawable resource id
+                    val outValue = TypedValue()
+                    theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+                    setBackgroundResource(outValue.resourceId)
                 }
                 tv.setOnClickListener {
                     val intent = Intent(this, MainActivity::class.java)

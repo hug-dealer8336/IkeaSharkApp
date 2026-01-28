@@ -24,7 +24,7 @@ class MainMenuActivity : AppCompatActivity() {
             }
             tv.setOnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(\"image_index\", index)
+                intent.putExtra("image_index", index)
                 startActivity(intent)
             }
             list.addView(tv)

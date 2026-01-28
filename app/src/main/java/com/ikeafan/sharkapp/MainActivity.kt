@@ -72,7 +72,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Set initial selection from intent (menu) or default to first item
-        val startIndex = intent.getIntExtra(\"image_index\", 0)\n        imageSpinner.setSelection(startIndex)
+        val startIndex = intent.getIntExtra("image_index", 0)
+        imageSpinner.setSelection(startIndex)
 
         // Handle like button click
         likeButton.setOnClickListener {

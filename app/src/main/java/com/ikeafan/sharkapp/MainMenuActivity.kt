@@ -15,27 +15,18 @@ class MainMenuActivity : AppCompatActivity() {
         try {
             setContentView(R.layout.activity_main_menu)
 
-            val list = findViewById<LinearLayout>(R.id.menuList)
-
-            // Build menu items from the same imageItems defined in MainActivity
-            val items = listOf("IKEA Shark", "Dodo")
-            items.forEachIndexed { index, name ->
-                val tv = TextView(this).apply {
-                    text = name
-                    textSize = 18f
-                    setPadding(32, 24, 32, 24)
-                    // Resolve selectableItemBackground attribute to a drawable resource id
-                    val outValue = TypedValue()
-                    theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-                    setBackgroundResource(outValue.resourceId)
-                }
-                tv.setOnClickListener {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("image_index", index)
-                    startActivity(intent)
-                }
-                list.addView(tv)
+            val recycler = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.menuRecycler)
+            val items = listOf(
+                Pair(R.drawable.ikea_shark, "IKEA Shark"),
+                Pair(R.drawable.dodo_no_backgroung, "Dodo")
+            )
+            val adapter = MenuAdapter(items) { index ->
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("image_index", index)
+                startActivity(intent)
             }
+            recycler.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, 2)
+            recycler.adapter = adapter
         } catch (e: Exception) {
             Log.e("MainMenuActivity", "Startup error", e)
             AlertDialog.Builder(this)

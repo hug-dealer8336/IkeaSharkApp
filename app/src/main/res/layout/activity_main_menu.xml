@@ -13,11 +13,13 @@
         android:textSize="24sp"
         android:paddingBottom="12dp" />
 
-    <LinearLayout
-        android:id="@+id/menuList"
-        android:orientation="vertical"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
 
 </LinearLayout>
 

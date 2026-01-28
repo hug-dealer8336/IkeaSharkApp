@@ -6,11 +6,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ArrayAdapter
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseReference
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,19 +30,28 @@ class MainActivity : AppCompatActivity() {
 
         likeButton = findViewById(R.id.likeButton)
         likeCountText = findViewById(R.id.likeCountText)
-        sharkImage = findViewById(R.id.sharkImage)
+        imageView = findViewById(R.id.imageView)
+        imageSpinner = findViewById(R.id.imageSpinner)
 
-        // Listen for like count changes in real-time
-        likesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val count = snapshot.getValue(Long::class.java) ?: 0
-                likeCountText.text = formatNumber(count)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, imageItems.map { it.name })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        imageSpinner.adapter = adapter
+
+        imageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = imageItems[position]
+                imageView.setImageResource(selectedItem.imageResId)
+                currentLikesRef = database.getReference(selectedItem.firebasePath)
+                attachLikeCounterListener()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, "Failed to load likes", Toast.LENGTH_SHORT).show()
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
             }
-        })
+        }
+
+        // Set initial selection to the first item (IKEA Shark)
+        imageSpinner.setSelection(0)
 
         // Handle like button click
         likeButton.setOnClickListener {
@@ -49,16 +61,29 @@ class MainActivity : AppCompatActivity() {
             
             // Animate the shark
             val sharkAnimation = AnimationUtils.loadAnimation(this, R.anim.shark_bounce)
-            sharkImage.startAnimation(sharkAnimation)
+            imageView.startAnimation(sharkAnimation)
 
             // Increment the counter
-            likesRef.get().addOnSuccessListener { snapshot ->
+            currentLikesRef.get().addOnSuccessListener { snapshot ->
                 val currentCount = snapshot.getValue(Long::class.java) ?: 0
-                likesRef.setValue(currentCount + 1)
+                currentLikesRef.setValue(currentCount + 1)
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed to like. Check your internet!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun attachLikeCounterListener() {
+        currentLikesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val count = snapshot.getValue(Long::class.java) ?: 0
+                likeCountText.text = formatNumber(count)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@MainActivity, "Failed to load likes", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun formatNumber(number: Long): String {

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">IKEA Shark Fan</string>
+
+    <string-array name="image_options">
+        <item>IKEA Shark</item>
+        <item>Dodo</item>
+    </string-array>
 </resources>

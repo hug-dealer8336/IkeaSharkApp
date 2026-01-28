@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Spinner
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +19,26 @@ import com.google.firebase.database.DatabaseReference
 
 class MainActivity : AppCompatActivity() {
 
+    data class ImageItem(
+        val name: String,
+        val imageResId: Int,
+        val firebasePath: String
+    )
+
+    private val imageItems = listOf(
+        ImageItem("IKEA Shark", R.drawable.ikea_shark, "shark_likes"),
+        ImageItem("Dodo", R.drawable.dodo_no_backgroung, "dodo_likes")
+    )
+
     private lateinit var likeButton: Button
     private lateinit var likeCountText: TextView
-    private lateinit var sharkImage: ImageView
+    private lateinit var imageView: ImageView
+    private lateinit var imageSpinner: Spinner
+    private lateinit var titleText: TextView
+    private lateinit var subtitleText: TextView
 
     private val database = FirebaseDatabase.getInstance()
-    private val likesRef = database.getReference("shark_likes")
+    private lateinit var currentLikesRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         likeCountText = findViewById(R.id.likeCountText)
         imageView = findViewById(R.id.imageView)
         imageSpinner = findViewById(R.id.imageSpinner)
+        titleText = findViewById(R.id.titleText)
+        subtitleText = findViewById(R.id.subtitleText)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, imageItems.map { it.name })
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -43,6 +61,9 @@ class MainActivity : AppCompatActivity() {
                 imageView.setImageResource(selectedItem.imageResId)
                 currentLikesRef = database.getReference(selectedItem.firebasePath)
                 attachLikeCounterListener()
+                // Update UI text to match selected image
+                titleText.text = \"${selectedItem.name} FAN\"
+                subtitleText.text = \"people love the ${selectedItem.name}!\" 
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -59,9 +80,9 @@ class MainActivity : AppCompatActivity() {
             val scaleAnimation = AnimationUtils.loadAnimation(this, R.anim.like_pulse)
             likeButton.startAnimation(scaleAnimation)
             
-            // Animate the shark
-            val sharkAnimation = AnimationUtils.loadAnimation(this, R.anim.shark_bounce)
-            imageView.startAnimation(sharkAnimation)
+            // Animate the image
+            val imageAnimation = AnimationUtils.loadAnimation(this, R.anim.shark_bounce)
+            imageView.startAnimation(imageAnimation)
 
             // Increment the counter
             currentLikesRef.get().addOnSuccessListener { snapshot ->

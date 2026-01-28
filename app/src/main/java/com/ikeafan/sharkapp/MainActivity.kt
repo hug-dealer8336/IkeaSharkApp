@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Set initial selection to the first item (IKEA Shark)
-        imageSpinner.setSelection(0)
+        // Set initial selection from intent (menu) or default to first item
+        val startIndex = intent.getIntExtra(\"image_index\", 0)\n        imageSpinner.setSelection(startIndex)
 
         // Handle like button click
         likeButton.setOnClickListener {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">IKEA Shark Fan</string>
+    <string name="app_name">Fanboard</string>
 
     <string-array name="image_options">
         <item>IKEA Shark</item>
         <item>Dodo</item>
     </string-array>
+    <string name="menu_prompt">What do you want to like?</string>
 </resources>

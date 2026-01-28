@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.IkeaSharkApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#0051BA</item>
-        <item name="colorPrimaryVariant">#003D8F</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#FFDA1A</item>
-        <item name="colorSecondaryVariant">#FFB800</item>
-        <item name="colorOnSecondary">#000000</item>
-        <item name="android:statusBarColor">#003D8F</item>
+        <!-- Use Material3 DayNight defaults so the app follows system light/dark mode -->
     </style>
 </resources>

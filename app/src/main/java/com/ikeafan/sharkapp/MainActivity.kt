@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
                 currentLikesRef = database.getReference(selectedItem.firebasePath)
                 attachLikeCounterListener()
                 // Update UI text to match selected image
-                titleText.text = \"${selectedItem.name} FAN\"
-                subtitleText.text = \"people love the ${selectedItem.name}!\" 
+                titleText.text = "${selectedItem.name} FAN"
+                subtitleText.text = "people love the ${selectedItem.name}!"
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
